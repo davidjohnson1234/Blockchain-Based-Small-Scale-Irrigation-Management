@@ -9,3 +9,5 @@ O
 contracts/usage-scheduling.clar,5/0/50ec3e2b20b375b2114cea0f45815569d3ffce63
 W
 'tests/water-source-registration.test.ts,c/c/ccf545cc1bd53cb4f47a4ba51758379a88137616
+X
+(tests/infrastructure-maintenance.test.ts,2/0/20a9fc9d7aa9b62fd904596653a353c58de03b6c

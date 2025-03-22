@@ -1,30 +1,69 @@
+;; Infrastructure Maintenance Contract
+;; Tracks upkeep of shared systems
 
-;; title: infrastructure-maintenance
-;; version:
-;; summary:
-;; description:
+(define-data-var last-id uint u0)
 
-;; traits
-;;
+(define-map maintenance-tasks
+  { id: uint }
+  {
+    water-source-id: uint,
+    description: (string-ascii 200),
+    scheduled-date: uint,
+    technician: principal,
+    cost: uint,
+    status: (string-ascii 20)
+  }
+)
 
-;; token definitions
-;;
+;; Schedule maintenance
+(define-public (schedule-maintenance
+    (water-source-id uint)
+    (description (string-ascii 200))
+    (scheduled-date uint)
+    (cost uint)
+  )
+  (let
+    (
+      (new-id (+ (var-get last-id) u1))
+    )
+    (var-set last-id new-id)
 
-;; constants
-;;
+    (map-set maintenance-tasks
+      { id: new-id }
+      {
+        water-source-id: water-source-id,
+        description: description,
+        scheduled-date: scheduled-date,
+        technician: tx-sender,
+        cost: cost,
+        status: "scheduled"
+      }
+    )
 
-;; data vars
-;;
+    (ok new-id)
+  )
+)
 
-;; data maps
-;;
+;; Complete maintenance
+(define-public (complete-maintenance
+    (task-id uint)
+  )
+  (let
+    (
+      (task (unwrap! (map-get? maintenance-tasks { id: task-id }) (err u404)))
+    )
+    (asserts! (is-eq tx-sender (get technician task)) (err u403))
 
-;; public functions
-;;
+    (map-set maintenance-tasks
+      { id: task-id }
+      (merge task { status: "completed" })
+    )
 
-;; read only functions
-;;
+    (ok true)
+  )
+)
 
-;; private functions
-;;
-
+;; Get maintenance task
+(define-read-only (get-maintenance-task (id uint))
+  (map-get? maintenance-tasks { id: id })
+)
