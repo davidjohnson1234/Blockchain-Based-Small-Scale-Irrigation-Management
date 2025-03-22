@@ -11,3 +11,5 @@ W
 'tests/water-source-registration.test.ts,c/c/ccf545cc1bd53cb4f47a4ba51758379a88137616
 X
 (tests/infrastructure-maintenance.test.ts,2/0/20a9fc9d7aa9b62fd904596653a353c58de03b6c
+N
+tests/usage-scheduling.test.ts,3/3/3345995a83a846a79cae1fe63cf0351a1a8775fa
